@@ -23,7 +23,7 @@ class ImportSoLinesWizard(models.TransientModel):
         
         order = self.so_id
         
-        for row_idx in range(1, worksheet.nrows):  # Mulai dari 1 untuk melewati header
+        for row_idx in range(1, worksheet.nrows): 
             row = worksheet.row_values(row_idx)
             
             if len(row) < 3:
@@ -54,7 +54,6 @@ class ImportSoLinesWizard(models.TransientModel):
                 "price_unit": unit_price,
             })
         
-        # Refresh view
         return {
             "type": "ir.actions.act_window",
             "res_model": "sale.order",
