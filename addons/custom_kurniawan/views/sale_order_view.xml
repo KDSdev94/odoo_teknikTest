@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_custom_kurniawan" model="ir.ui.view">
+        <field name="name">sale.order.form.custom.kurniawan</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']" position="before">
+                <group>
+                    <group>
+                        <field name="request_vendor"/>
+                    </group>
+                    <group>
+                        <field name="no_kontrak"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="with_po"/>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='order_lines']" position="after">
+                <page string="Purchase Orders" name="purchase_orders" attrs="{'invisible': [('with_po', '!=', True)]}">
+                    <field name="purchase_order_ids" nolabel="1" colspan="2" context="{'default_company_id': company_id}">
+                        <tree string="Purchase Orders">
+                            <field name="partner_id"/>
+                            <field name="name"/>
+                            <field name="date_order"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="before">
+                <button name="action_create_po" type="object" string="Create PO" class="oe_highlight" 
+                        attrs="{'invisible': [('with_po', '!=', True)]}"
+                        groups="base.group_user"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="attributes">
+                <attribute name="name">action_confirm_so</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_import_so_lines" type="object" string="Import SO Lines" class="oe_highlight"
+                        groups="base.group_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
