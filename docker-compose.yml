@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:10.0
+    networks:
+      - belajar-odoo
+    environment:
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: unless-stopped
+
+  odoo:
+    image: odoo:14.0
+    networks:
+      - belajar-odoo
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+      - "8071:8071"
+    tty: true
+    command: []
+    volumes:
+      - ./etc:/etc/odoo
+      - ./addons:/mnt/extra-addons
+    restart: unless-stopped
+
+networks:
+  belajar-odoo:
+    driver: bridge
